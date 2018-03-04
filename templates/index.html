@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Breast Cancer Prediction</title>
+        {% load static from staticfiles %}
+        <link rel="stylesheet" href="{% static 'popup.css' %}">
+        <link rel="stylesheet" href="{% static 'slider.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+    <body>
+        <div id="h">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 mt">
+                        <h1 class="mb" style="font-size:350%;">
+                            Breast Cancer Classifier
+                        </h1>
+                        <h3 style="margin-top: -40px">
+                            Machine Learning Assignment
+                        </h3>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="col-md-9  col-md-offset-2" style="margin-top: 40px">
+                            <h3 style="margin-top: 0px; color: #ffffff; font-weight: bold" data-effect="slide-bottom">
+                                <p>
+                                    This is an analysis of the Breast Cancer Wisconsin DataSet, obtained from
+                                    Yaraku, Inc. Demonstrating data preparation, like loading, cleaning, transforming,
+                                    and rearranging data, Also interpreting data, analyzing and visualizing results.
+                                    Finally, fitting with several machine learning classification models and compare their
+                                    results. The best model found is based on a neural network with a F1 score of 0.96.
+                                </p>
+                            </h3>
+                            <div>
+                                <button class="btn btn-lg btn-info btn-register" id="qa_button" href="#">
+                                See the Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="w" align="center">
+            <h1>Try and see how likely the tumor is malignant</h1><br>
+            <form method="get" action="/">
+                <table>
+                    <tr height="30">
+                        <td width="180px">Uniformity of Cell Size: </td>
+                        <td width="30px"><span id="1_v"></span></td>
+                        <td><input title ="1_s" id="1_s" name="1_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                    <tr height="30">
+                        <td>Uniformity of Cell Shape: </td>
+                        <td width="30px"><span id="2_v"></span></td>
+                        <td><input title ="2_s" id="2_s" name="2_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                    <tr height="30">
+                        <td>Marginal Adhesion: </td>
+                        <td width="30px"><span id="3_v"></span></td>
+                        <td><input title ="3_s" id="3_s" name="3_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                    <tr height="30">
+                        <td>Bare Nuclei: </td>
+                        <td width="30px"><span id="4_v"></span></td>
+                        <td><input title ="4_s" id="4_s" name="4_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                    <tr height="30">
+                        <td>Bland Chromatin: </td>
+                        <td width="30px"><span id="5_v"></span></td>
+                        <td><input title ="5_s" id="5_s" name="5_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                    <tr height="30">
+                        <td>Mitoses: </td>
+                        <td width="30px"><span id="6_v"></span></td>
+                        <td><input title ="6_s" id="6_s" name="6_s" class="slider" type ="range" min ="1" max="10" step ="1" value="1"/></td>
+                    </tr>
+                </table>
+              <input id="submit" class="submit_b" type="submit" value="Submit">
+            </form>
+        </div>
+
+
+
+
+
+        <div class="cd-popup" role="alert">
+            <div class="cd-popup-container">
+                <br>
+                <h3>With the following input:</h3>
+                <dev>
+                    <table style="margin: auto;">
+                        <tr height="30">
+                            <td width="180px">Uniformity of Cell Size: </td>
+                            <td width="30px">{{ usr_input.0 }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td>Uniformity of Cell Shape: </td>
+                            <td width="30px">{{ usr_input.1 }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td>Marginal Adhesion: </td>
+                            <td width="30px">{{ usr_input.2 }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td>Bare Nuclei: </td>
+                            <td width="30px">{{ usr_input.3 }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td>Bland Chromatin: </td>
+                            <td width="30px">{{ usr_input.4 }}</td>
+                        </tr>
+                        <tr height="30">
+                            <td>Mitoses: </td>
+                            <td width="30px">{{ usr_input.5 }}</td>
+                        </tr>
+                    </table>
+                    <h4>Malignant Tumor Prediction: {{ predict_p }}</h4>
+                    <br>
+                </dev>
+                <a href="" class="cd-popup-close img-replace">Close</a>
+            </div>
+        </div>
+        <a id="cd-popup-trigger" href="" class="cd-popup-trigger" style="display: none"></a>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>
+             window.onload = init;
+
+            function init(){
+                var sc_1 = "{{ submit }}";
+                if (sc_1 == 'YES'){
+                    document.getElementById("cd-popup-trigger").click();
+                }
+            }
+
+            var _1_s = document.getElementById("1_s");
+            var _1_v = document.getElementById("1_v");
+            var _2_s = document.getElementById("2_s");
+            var _2_v = document.getElementById("2_v");
+            var _3_s = document.getElementById("3_s");
+            var _3_v = document.getElementById("3_v");
+            var _4_s = document.getElementById("4_s");
+            var _4_v = document.getElementById("4_v");
+            var _5_s = document.getElementById("5_s");
+            var _5_v = document.getElementById("5_v");
+            var _6_s = document.getElementById("6_s");
+            var _6_v = document.getElementById("6_v");
+            _1_v.innerHTML = _1_s.value;
+            _2_v.innerHTML = _2_s.value;
+            _3_v.innerHTML = _3_s.value;
+            _4_v.innerHTML = _4_s.value;
+            _5_v.innerHTML = _5_s.value;
+            _6_v.innerHTML = _6_s.value;
+
+            _1_s.oninput = function() {_1_v.innerHTML = this.value;};
+            _2_s.oninput = function() {_2_v.innerHTML = this.value;};
+            _3_s.oninput = function() {_3_v.innerHTML = this.value;};
+            _4_s.oninput = function() {_4_v.innerHTML = this.value;};
+            _5_s.oninput = function() {_5_v.innerHTML = this.value;};
+            _6_s.oninput = function() {_6_v.innerHTML = this.value;};
+
+            jQuery(document).ready(function($){
+                $('.cd-popup-trigger').on('click', function(event){
+                    event.preventDefault();
+                    $('.cd-popup').addClass('is-visible');
+                });
+                $('.cd-popup').on('click', function(event){
+                    if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup') ) {
+                        event.preventDefault();
+                        $(this).removeClass('is-visible');
+                    }
+                });
+                $(document).keyup(function(event){
+                    if(event.which=='27'){
+                        $('.cd-popup').removeClass('is-visible');
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>
