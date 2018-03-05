@@ -1,3 +1,7 @@
+# Yaraku challenge
+
+*Note: The server's CPU does not support tensorflow, the site is just for UI demo.*
+
 This is an analysis of the Breast Cancer Wisconsin DataSet, obtained from
 Yaraku, Inc. Demonstrating data preparation, like loading, cleaning, transforming,
 and rearranging data, Also interpreting data, analyzing and visualizing results.
